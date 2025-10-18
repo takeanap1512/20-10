@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>20/10</title>
+
+<!-- Swiper CDN -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<style>
+  :root {
+    --paper: #f5e9dd;
+    --shadow: rgba(0,0,0,0.15);
+  }
+  html, body {
+    height: 100%; margin: 0;
+    background: var(--paper);
+    font-family: Inter, "Segoe UI", sans-serif;
+    overflow: hidden;
+  }
+
+  /* INTRO */
+  .intro {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity 2s ease;
+    z-index: 100;
+  }
+  .intro.visible { opacity: 1; }
+  .intro.hidden { opacity: 0; pointer-events: none; }
+
+  /* Swiper */
+  .swiper {
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 0s linear 1s;
+  }
+  .swiper.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.5s ease;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--paper);
+  }
+  .slide-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .slide-content img {
+    position: absolute;
+    width: 380px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px var(--shadow);
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    animation: fadeInUp 1.5s ease forwards;
+  }
+  .slide-content img:nth-child(1) { left: 22%; top: 26%; }
+  .slide-content img:nth-child(2) { right: 22%; top: 46%; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* MESSAGE */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 2s ease;
+    pointer-events: none;
+    z-index: 30;
+  }
+  .overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .message-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 34px;
+    width: min(780px, 90%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  .message-box h1 {
+    color: #c86b8b;
+    margin-bottom: 16px;
+    font-size: 1.6rem;
+  }
+  .message-text {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  /* BLACK TRANSITION */
+  #black-screen {
+    position: fixed;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 3s ease;
+    z-index: 200;
+  }
+  #black-screen.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* FALLING EFFECT */
+  #falling-container {
+    position: fixed;
+    inset: 0;
+    background: black;
+    overflow: hidden;
+    display: none;
+    z-index: 300;
+  }
+
+  .falling-element {
+    position: absolute;
+    color: #ffb6c1;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff1493, 0 0 10px #ff1493;
+    opacity: 0;
+    white-space: nowrap;
+    border-radius: 8px;
+    overflow: hidden;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  .falling-element img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-50px) rotateZ(var(--angle, 0deg)); opacity: 0; filter: blur(2px); }
+    10% { opacity: 1; filter: blur(0); }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh) rotateZ(var(--angle, 0deg)); opacity: 0; filter: blur(2px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro" id="intro">Món Quà Be Bé Từ Nap</div>
+
+<!-- Slideshow -->
+<div class="swiper mySwiper" id="swiperContainer">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><div class="slide-content"><img src="img1.jpg"><img src="img2.jpg"></div></div>
+    <div class="swiper-slide"><div class="slide-content"><img src="img3.jpg"><img src="img4.jpg"></div></div>
+    <div class="swiper-slide"><div class="slide-content"><img src="img5.jpg"><img src="img6.jpg"></div></div>
+    <div class="swiper-slide"><div class="slide-content"><img src="img9.jpg"><img src="img10.jpg"></div></div>
+  </div>
+</div>
+
+<!-- Lời chúc -->
+<div class="overlay" id="overlay">
+  <div class="message-box">
+    <h1>Lời chúc</h1>
+    <div class="message-text" id="messageText">
+      Lâu gòi chưa viết gì đóa cho babi nên nay a viết dị.Chúc babi cóa một ngày 20-10 thật là zui
+      không thèm chúc xinh gái vì chúc thì thừa mất babi lúc nào cũng xinh gái vô cùng tận không ai
+      bằng gòi mà hẹ hẹ. Cảm ơn babi vì lun ở cạnh a trong suốt thời gian qua và cũng xin lũi e vì
+      thời gian gần đây a hơi pận nên không dành được nhiều thời gian cho iem. Trước e có bảo a là
+      em dùng hết may mắn ms gặp dc anh, thì chắc anh cũng vậy á, a cũng đã tiêu hết may mắn rùi nên ms có được iem bé xinh gái cute dễ thương chìu mình như vậy chứ hẹ hẹ.
+      Ựa hết chữ mất rùi a cx không viết dc nhìu nếu e đọc hết rùi thì vẫn còn phần nhỏ ở phía sau nữa nhé hehehe đợi xíu nha.
+      Yêu em nhìu nhắmmmmmmm!
+    </div>
+  </div>
+</div>
+
+<!-- Màn hình đen chuyển tiếp -->
+<div id="black-screen"></div>
+
+<!-- Hiệu ứng rơi -->
+<div id="falling-container"></div>
+
+<script>
+/* ==================== PHẦN SLIDESHOW ==================== */
+const swiper = new Swiper(".mySwiper", {
+  effect: "fade",
+  fadeEffect: { crossFade: true },
+  autoplay: { delay: 5000, disableOnInteraction: false },
+  speed: 1800,
+  allowTouchMove: false,
+  loop: false
+});
+
+const overlay = document.getElementById('overlay');
+const intro = document.getElementById('intro');
+const swiperContainer = document.getElementById('swiperContainer');
+const blackScreen = document.getElementById('black-screen');
+const fallingContainer = document.getElementById('falling-container');
+
+swiper.on('reachEnd', () => {
+  setTimeout(() => overlay.classList.add('visible'), 4000);
+  setTimeout(() => {
+    overlay.classList.remove('visible');
+    blackScreen.classList.add('visible');
+    setTimeout(() => {
+      startFallingEffect();
+      blackScreen.classList.remove('visible');
+    }, 3000);
+  }, 40000);
+});
+
+window.onload = () => {
+  intro.classList.add('visible');
+  setTimeout(() => {
+    intro.classList.remove('visible');
+    intro.classList.add('hidden');
+    setTimeout(() => {
+      swiperContainer.classList.add('visible');
+      swiper.autoplay.start();
+    }, 800);
+  }, 3000);
+};
+
+/* ==================== PHẦN HIỆU ỨNG RƠI ==================== */
+function startFallingEffect() {
+  swiperContainer.style.display = 'none';
+  overlay.style.display = 'none';
+  fallingContainer.style.display = 'block';
+
+  const messages = [
+    "i love so much 💖", "Ngọc Anh péo", "20/10 zui zẻ✨",
+    "A iu e nhấttttt 💖", "Yêu em bé vô cùnggggg💖",
+    "Je t'aime", "Je t'aime plus que tout",
+    "Quand j'ai te vu, j'ai eu un coup de foudre pour toi"
+  ];
+  const imageURLs = [
+    'img1.jpg','img2.jpg','img3.jpg','img4.jpg','img5.jpg',
+    'img6.jpg','img7.jpg','img8.jpg','img9.jpg','img10.jpg',
+    'img11.jpg','img12.jpg','img13.jpg','img14.jpg','img15.jpg'
+    ,'img17.jpg','img18.jpg','img19.jpg','img20.jpg'
+  ];
+  const textElements = messages.concat(Array(30).fill('💖'));
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  let shuffledImages = shuffleArray([...imageURLs]);
+  let imageIndex = 0;
+  function getNextImage() {
+    if (imageIndex >= shuffledImages.length) {
+      shuffledImages = shuffleArray([...imageURLs]);
+      imageIndex = 0;
+    }
+    return shuffledImages[imageIndex++];
+  }
+
+  function createFallingElement() {
+    const element = document.createElement('div');
+    element.className = 'falling-element';
+    const isImage = Math.random() < 0.2;
+
+    if (isImage && imageURLs.length > 0) {
+      const img = document.createElement('img');
+      img.src = getNextImage();
+      element.appendChild(img);
+      const size = Math.random() * 90 + 60;
+      element.style.width = `${size}px`;
+      element.style.height = `${size * 1.2}px`;
+    } else {
+      element.textContent = textElements[Math.floor(Math.random() * textElements.length)];
+      element.style.fontSize = `${Math.random() * 8 + 16}px`;
+    }
+
+    element.style.left = Math.random() * window.innerWidth * 0.95 + 'px';
+    element.style.animationDuration = `${Math.random() * 6 + 6}s`;
+    element.style.animationDelay = `${Math.random()}s`;
+    element.style.setProperty('--angle', `${Math.random() * 40 - 20}deg`);
+
+    fallingContainer.appendChild(element);
+    element.addEventListener('animationend', () => element.remove());
+  }
+
+  setInterval(createFallingElement, 300);
+  for (let i = 0; i < 20; i++) setTimeout(createFallingElement, i * 200);
+}
+</script>
+</body>
+</html>
